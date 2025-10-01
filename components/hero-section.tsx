@@ -9,12 +9,14 @@ import { Button } from "@/components/ui/button"
 export function HeroSection() {
   const [playVideo, setPlayVideo] = useState(false);
   const videoId = "3-PRw2M48Bg";
-  const phoneNumber = "56966972963";
 
-  const demoMessage = encodeURIComponent("¡Hola! Vengo desde la web de Venpu Plus y me gustaría solicitar una demo para mi automotora. ¿Podrían indicarme los próximos pasos? ¡Gracias!");
-  
-  // Este enlace ahora lo usará el botón verde
-  const expertWppUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent("¡Hola! Vengo desde la web de Venpu Plus y me gustaría hablar con un experto para resolver algunas dudas.")}`;
+  // --- CORRECCIÓN: Se añaden las variables que faltaban ---
+  const phoneNumber = "56966972963"; 
+  const demoMessage = encodeURIComponent("¡Hola! Vengo desde la web de Venpu Plus y me gustaría solicitar una demo para mi automotora.");
+  const expertMessage = encodeURIComponent("¡Hola! Vengo desde la web de Venpu Plus y me gustaría hablar con un experto.");
+  const demoWppUrl = `https://wa.me/${phoneNumber}?text=${demoMessage}`;
+  const expertWppUrl = `https://wa.me/${phoneNumber}?text=${expertMessage}`;
+  // --- FIN DE LA CORRECCIÓN ---
 
   return (
     <section className="relative w-full bg-[url('/fondo.png')] bg-cover bg-center" id="hero">
@@ -37,12 +39,10 @@ export function HeroSection() {
               Publica tu stock, centraliza leads de todos los canales y aumenta tus cierres con IA.
             </p>
 
-            {/* CAMBIO: Se reestructura el bloque de botones */}
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <Button size="lg" className="bg-yellow-400 text-slate-900 hover:bg-yellow-300 font-bold" asChild>
                 <a href={demoWppUrl} target="_blank" rel="noopener noreferrer">Solicitar Demo</a>
               </Button>
-              {/* Botón de WhatsApp restaurado al estilo verde */}
               <Button size="lg" className="bg-green-500 text-white hover:bg-green-600 font-bold" asChild>
                 <a href={expertWppUrl} target="_blank" rel="noopener noreferrer">
                     <MessageSquare className="w-5 h-5 mr-2" />
@@ -71,7 +71,6 @@ export function HeroSection() {
           >
             {/* ...código del video sin cambios... */}
           </motion.div>
-
         </div>
       </div>
     </section>
