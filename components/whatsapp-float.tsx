@@ -1,30 +1,26 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { MessageCircle } from "lucide-react"
+import { MessageSquare } from "lucide-react"
 
 export function WhatsAppFloat() {
-  const handleWhatsAppClick = () => {
-    const message = encodeURIComponent("Hola! Me interesa conocer más sobre Venpu Plus para mi automotora.")
-    window.open(`https://wa.me/56912345678?text=${message}`, "_blank")
-  }
+  const phoneNumber = "56966972963"; // CAMBIO: Número actualizado
+  const message = encodeURIComponent("¡Hola! Vengo desde la web de Venpu Plus y me gustaría más información.");
+  const wppUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   return (
-    <motion.button
-      onClick={handleWhatsAppClick}
-      className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg flex items-center justify-center transition-colors"
+    <motion.a
+      href={wppUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center shadow-lg"
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 260, damping: 20, delay: 1 }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-      animate={{
-        y: [0, -10, 0],
-      }}
-      transition={{
-        repeat: Number.POSITIVE_INFINITY,
-        duration: 2,
-        ease: "easeInOut",
-      }}
     >
-      <MessageCircle className="w-7 h-7" />
-    </motion.button>
+      <MessageSquare className="w-8 h-8 text-white" />
+    </motion.a>
   )
 }
