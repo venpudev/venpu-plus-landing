@@ -9,14 +9,13 @@ import { Button } from "@/components/ui/button"
 export function HeroSection() {
   const [playVideo, setPlayVideo] = useState(false);
   const videoId = "3-PRw2M48Bg";
+  const phoneNumber = "56966972963";
 
-  // --- CORRECCIÓN: Se añaden las variables que faltaban ---
-  const phoneNumber = "56966972963"; 
   const demoMessage = encodeURIComponent("¡Hola! Vengo desde la web de Venpu Plus y me gustaría solicitar una demo para mi automotora.");
-  const expertMessage = encodeURIComponent("¡Hola! Vengo desde la web de Venpu Plus y me gustaría hablar con un experto.");
+  const expertMessage = encodeURIComponent("¡Hola! Vengo desde la web de Venpu Plus y me gustaría hablar con un experto para resolver algunas dudas.");
+  
   const demoWppUrl = `https://wa.me/${phoneNumber}?text=${demoMessage}`;
   const expertWppUrl = `https://wa.me/${phoneNumber}?text=${expertMessage}`;
-  // --- FIN DE LA CORRECCIÓN ---
 
   return (
     <section className="relative w-full bg-[url('/fondo.png')] bg-cover bg-center" id="hero">
@@ -69,8 +68,35 @@ export function HeroSection() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="flex justify-center"
           >
-            {/* ...código del video sin cambios... */}
+            <div className="relative w-full max-w-lg aspect-video rounded-xl shadow-2xl overflow-hidden">
+              {playVideo ? (
+                <iframe
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`}
+                  title="Video Corporativo Venpu"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                />
+              ) : (
+                <div 
+                  className="relative group w-full h-full cursor-pointer"
+                  onClick={() => setPlayVideo(true)}
+                >
+                  <Image 
+                    src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                    alt="Previsualización del video de Venpu Plus"
+                    fill={true}
+                    style={{objectFit: 'cover'}}
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300"></div>
+                  <PlayCircle className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-300" />
+                </div>
+              )}
+            </div>
           </motion.div>
+
         </div>
       </div>
     </section>
