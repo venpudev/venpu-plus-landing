@@ -46,7 +46,7 @@ export function HeroSection() {
               <Button size="lg" className="bg-green-500 text-white hover:bg-green-600 font-bold" asChild>
                 <a href={expertWppUrl} target="_blank" rel="noopener noreferrer">
                     <MessageSquare className="w-5 h-5 mr-2" />
-                    Hablar por WhatsApp
+                    Hablar con un experto
                 </a>
               </Button>
             </div>
