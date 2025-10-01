@@ -1,6 +1,9 @@
 "use client"
 import { motion } from "framer-motion"
 import { Check, ShieldCheck, Clock, Award, PlusCircle } from "lucide-react"
+import { Button } from "@/components/ui/button"
+
+const phoneNumber = "56966972963"; // Número de WhatsApp centralizado
 
 const plans = [
     {
@@ -18,7 +21,8 @@ const plans = [
             "Integración WhatsApp Business"
         ],
         ctaText: "Quiero empezar con Pyme",
-        isRecommended: false
+        isRecommended: false,
+        wppMessage: "¡Hola! Me interesa el Plan Pyme y me gustaría empezar."
     },
     {
         planName: "Plan Empresa",
@@ -37,7 +41,8 @@ const plans = [
             "Soporte prioritario 24/7"
         ],
         ctaText: "Quiero crecer con Empresa",
-        isRecommended: true
+        isRecommended: true,
+        wppMessage: "¡Hola! Me interesa la oferta del Plan Empresa y quiero empezar."
     },
     {
         planName: "Plan Corporativo",
@@ -56,7 +61,8 @@ const plans = [
             "SLA garantizado"
         ],
         ctaText: "Solicitar propuesta Corporativa",
-        isRecommended: false
+        isRecommended: false,
+        wppMessage: "¡Hola! Me gustaría solicitar una propuesta para el Plan Corporativo de Venpu Plus."
     }
 ];
 
@@ -64,7 +70,17 @@ export function PricingSection() {
     return (
         <section className="py-20 sm:py-28 bg-slate-50" id="planes">
              <div className="container mx-auto px-4">
-                <h2 className="text-center text-4xl sm:text-5xl font-bold text-slate-900 mb-12">Planes simples para tu crecimiento</h2>
+                <motion.div 
+                    className="text-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                >
+                    {/* CAMBIO 2: Se añade la volanta/cintillo sobre el titular */}
+                    <p className="font-bold text-yellow-500 uppercase tracking-wider mb-2">Precios Transparentes</p>
+                    <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-12">Planes simples para tu crecimiento</h2>
+                </motion.div>
+
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start max-w-7xl mx-auto">
                     {plans.map((plan, index) => (
                         <PricingCard 
@@ -88,9 +104,9 @@ export function PricingSection() {
 }
 
 const PricingCard = (props: (typeof plans)[0] & { delay: number }) => {
-    // CAMBIO 2: Lógica para separar el plan base de las características adicionales
     const basePlanFeature = props.features.find(f => f.toLowerCase().includes("todo lo del plan"));
     const additionalFeatures = props.features.filter(f => !f.toLowerCase().includes("todo lo del plan"));
+    const wppUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(props.wppMessage)}`;
 
     return (
         <motion.div 
@@ -122,7 +138,6 @@ const PricingCard = (props: (typeof plans)[0] & { delay: number }) => {
                 </div>
                 
                 <div className="mt-8 border-t pt-8 flex-grow">
-                    {/* CAMBIO 3: Bloque destacado para el plan base */}
                     {basePlanFeature && (
                         <div className="bg-slate-100 p-3 rounded-lg mb-6">
                             <div className="flex items-center gap-3">
@@ -132,7 +147,7 @@ const PricingCard = (props: (typeof plans)[0] & { delay: number }) => {
                         </div>
                     )}
 
-                    {additionalFeatures.length > 0 && <p className="text-xs uppercase font-bold text-slate-400 mb-4">MÁS LOS BENEFICIOS:</p>}
+                    {additionalFeatures.length > 0 && props.planName !== 'Plan Pyme' && <p className="text-xs uppercase font-bold text-slate-400 mb-4">MÁS LOS BENEFICIOS:</p>}
                     <ul className="space-y-4">
                         {additionalFeatures.map(feature => (
                             <li key={feature} className="flex items-start gap-3">
@@ -143,9 +158,12 @@ const PricingCard = (props: (typeof plans)[0] & { delay: number }) => {
                     </ul>
                 </div>
 
-                <button className={`mt-8 w-full font-bold py-3 rounded-lg text-lg transition-colors ${props.isRecommended ? 'bg-slate-800 text-white hover:bg-slate-900' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`}>
-                    {props.ctaText}
-                </button>
+                {/* CAMBIO 1: El botón ahora es un enlace a WhatsApp */}
+                <Button className={`mt-8 w-full font-bold py-3 rounded-lg text-lg transition-colors ${props.isRecommended ? 'bg-slate-800 text-white hover:bg-slate-900' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`} asChild>
+                    <a href={wppUrl} target="_blank" rel="noopener noreferrer">
+                        {props.ctaText}
+                    </a>
+                </Button>
             </div>
         </motion.div>
     );
