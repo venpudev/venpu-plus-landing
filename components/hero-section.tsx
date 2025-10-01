@@ -1,5 +1,6 @@
 "use client"
 
+// --- SECCIÓN DE IMPORTACIONES (LA SOLUCIÓN AL ERROR) ---
 import { useState } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
@@ -49,8 +50,7 @@ export function HeroSection() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="flex justify-center"
           >
-            <div className="relative w-full max-w-md aspect-video rounded-xl shadow-2xl overflow-hidden">
-              {/* CORRECCIÓN 1: La lógica está envuelta en llaves {} */}
+            <div className="relative w-full max-w-lg aspect-video rounded-xl shadow-2xl overflow-hidden">
               {playVideo ? (
                 <iframe
                   src={`https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`}
@@ -59,7 +59,7 @@ export function HeroSection() {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   className="w-full h-full"
-                /> /* <-- CORRECCIÓN 2: La etiqueta se auto-cierra con "/>" */
+                />
               ) : (
                 <div 
                   className="relative group w-full h-full cursor-pointer"
