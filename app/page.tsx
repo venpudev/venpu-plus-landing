@@ -1,6 +1,3 @@
-// app/page.tsx
-
-// Volvemos a tener todas las importaciones aquí
 import { Navigation } from "@/components/navigation";
 import { HeroSection } from "@/components/hero-section";
 import { ComparisonSection } from "@/components/comparison-section";

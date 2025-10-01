@@ -1,76 +1,82 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { LayoutDashboard, ShoppingCart, TrendingUp, FileText, Globe, Zap } from "lucide-react"
+import { motion, Variants } from "framer-motion"
+import { LayoutDashboard, ShoppingCart, TrendingUp, FileText, Globe, Zap, Check } from "lucide-react"
 
 const features = [
-  { icon: LayoutDashboard, title: "CRM Automotoras", description: "Gestión completa de inventario, leads y clientes con IA integrada." },
-  { icon: ShoppingCart, title: "Marketplace", description: "Publica automáticamente en MercadoLibre, Yapo y más plataformas." },
-  { icon: Zap, title: "AutoLead", description: "IA que filtra y califica leads automáticamente por probabilidad de compra." },
-  { icon: FileText, title: "Informes", description: "Analytics avanzados con predicciones de ventas y ROI en tiempo real." },
-  { icon: Globe, title: "Sitios Web Premium", description: "Landing pages optimizadas para conversión con SEO automático." },
-  { icon: TrendingUp, title: "Marketing", description: "Campañas automatizadas en Facebook, Instagram y Google Ads." },
+  { icon: LayoutDashboard, title: "CRM Automotoras", points: ["Gestión de inventario y leads", "Filtro de clientes con IA", "Comunicación centralizada"] },
+  { icon: ShoppingCart, title: "Marketplace", points: ["Publicación automática en portales", "Stock siempre sincronizado", "Ahorro de tiempo masivo"] },
+  { icon: Zap, title: "AutoLead", points: ["Calificación de leads automática", "Probabilidad de compra por IA", "Optimización de la inversión"] },
+  { icon: FileText, title: "Informes", points: ["Analytics predictivos de ventas", "Seguimiento de ROI en tiempo real", "Reportes de rendimiento por canal"] },
+  { icon: Globe, title: "Sitios Web Premium", points: ["Landing pages de alta conversión", "SEO automático para posicionamiento", "Diseño 100% adaptable a móviles"] },
+  { icon: TrendingUp, title: "Marketing", points: ["Campañas automatizadas y optimizadas", "Integración con Facebook y Google Ads", "Segmentación inteligente de audiencias"] },
 ];
 
 export function FeaturesSection() {
   return (
-    <section className="py-20 sm:py-28 bg-slate-50">
-      <div className="container mx-auto px-4 text-center">
-        <motion.h2 
-          className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4"
+    <section className="py-20 sm:py-28 bg-slate-50 overflow-hidden">
+      <div className="container mx-auto px-4">
+        <motion.div 
+          className="text-center max-w-3xl mx-auto mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Todo lo que necesitas en una sola plataforma
-        </motion.h2>
+          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
+            Todo lo que necesitas en una sola plataforma
+          </h2>
+          <p className="mt-4 text-lg text-slate-600">
+            Desde la gestión de inventario hasta el cierre de ventas, Venpu Plus automatiza todo tu proceso comercial.
+          </p>
+        </motion.div>
 
-        <motion.p 
-          className="mt-4 text-lg text-slate-600 max-w-3xl mx-auto mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        <motion.div 
+          className="flex gap-8 pb-8 -mx-4 px-4 overflow-x-auto snap-x snap-mandatory"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Desde la gestión de inventario hasta el cierre de ventas, Venpu Plus automatiza todo tu proceso comercial.
-        </motion.p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <FeatureCard 
               key={feature.title}
               icon={feature.icon} 
               title={feature.title} 
-              description={feature.description} 
-              delay={0.1 * index}
+              points={feature.points} 
+              index={index}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
 }
 
-const FeatureCard = ({ icon: Icon, title, description, delay }: {icon: React.ElementType, title: string, description: string, delay: number}) => {
+const FeatureCard = ({ icon: Icon, title, points, index }: {icon: React.ElementType, title: string, points: string[], index: number}) => {
   return (
     <motion.div 
-      className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center 
-                 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
+      className="flex-shrink-0 w-[320px] bg-white rounded-2xl shadow-lg border border-slate-200/80 p-8 snap-center
+                 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 flex flex-col"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ delay: delay, duration: 0.6, type: "spring", stiffness: 100 }}
+      viewport={{ once: true, amount: 0.5 }}
+      transition={{ delay: index * 0.1, duration: 0.6 }}
     >
-      <div className="bg-yellow-100 text-yellow-600 rounded-full p-4 mb-5">
-        <Icon className="w-8 h-8" />
+      <div className="flex items-center gap-4 mb-5">
+        <div className="bg-yellow-100 text-yellow-600 rounded-lg p-3">
+          <Icon className="w-6 h-6" />
+        </div>
+        <h3 className="text-xl font-bold text-slate-800">{title}</h3>
       </div>
-      <h3 className="text-xl font-bold text-slate-800 mb-2">{title}</h3>
-      <p className="text-slate-500 flex-grow">{description}</p>
-      <a href="#" className="mt-4 text-slate-800 font-bold flex items-center group">
-        Ver más 
-        <span className="ml-1 transform transition-transform duration-300 group-hover:translate-x-1">→</span>
-      </a>
+      <ul className="space-y-3 text-slate-500 flex-grow">
+        {points.map(point => (
+          <li key={point} className="flex items-start gap-3">
+            <Check className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
+            <span>{point}</span>
+          </li>
+        ))}
+      </ul>
     </motion.div>
   )
 }

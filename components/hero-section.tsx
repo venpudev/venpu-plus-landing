@@ -1,20 +1,130 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
-import { PlayCircle, MessageSquare } from "lucide-react"
+import { PlayCircle, MessageSquare, User, Building, Mail, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
+// --- Componente del Modal para la Demo ---
+function DemoModal({ children }: { children: React.ReactNode }) {
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    name: "",
+    company: "",
+    email: "",
+    phone: "",
+    plan: "",
+  });
+
+  const nextStep = () => setStep(step + 1);
+  const prevStep = () => setStep(step - 1);
+
+  const handleSubmit = () => {
+    console.log("Formulario enviado:", formData);
+    alert("¡Gracias! Tu solicitud ha sido enviada.");
+  };
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        {children}
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-center">Bienvenido 👋</DialogTitle>
+          <DialogDescription className="text-center">
+            Estás a pocos pasos de agendar tu demo.
+          </DialogDescription>
+        </DialogHeader>
+        
+        <div className="relative overflow-x-hidden h-[300px] pt-4">
+          <AnimatePresence>
+            {step === 1 && (
+              <motion.div
+                key="step1"
+                initial={{ x: "100%", opacity: 0 }}
+                animate={{ x: "0%", opacity: 1 }}
+                exit={{ x: "-100%", opacity: 0 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="absolute w-full space-y-4"
+              >
+                <div className="space-y-2">
+                  <Label htmlFor="name">¿Cuál es tu nombre?</Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <Input id="name" placeholder="Ej. Juan Pérez" className="pl-9" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="company">¿Cuál es el nombre de tu empresa?</Label>
+                  <div className="relative">
+                    <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <Input id="company" placeholder="Ej. Automotora Chile" className="pl-9" value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})} />
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {step === 2 && (
+              <motion.div
+                key="step2"
+                initial={{ x: "100%", opacity: 0 }}
+                animate={{ x: "0%", opacity: 1 }}
+                exit={{ x: "-100%", opacity: 0 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="absolute w-full space-y-4"
+              >
+                <div className="space-y-2">
+                  <Label htmlFor="email">¿Cuál es tu correo electrónico?</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <Input id="email" type="email" placeholder="Ej. info@automotora.cl" className="pl-9" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phone">¿Cuál es tu número de WhatsApp?</Label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <Input id="phone" type="tel" placeholder="Ej. +56912345678" className="pl-9" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full transition-colors ${step === 1 ? 'bg-slate-800' : 'bg-slate-300'}`}></span>
+                <span className={`w-2 h-2 rounded-full transition-colors ${step === 2 ? 'bg-slate-800' : 'bg-slate-300'}`}></span>
+            </div>
+            <div className="flex gap-2">
+                {step > 1 && <Button variant="ghost" onClick={prevStep}>Volver</Button>}
+                {step === 1 ? (
+                    <Button onClick={nextStep}>Siguiente</Button>
+                ) : (
+                    <Button onClick={handleSubmit}>Agendar Demo</Button>
+                )}
+            </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+
+// --- Componente Principal: HeroSection ---
 export function HeroSection() {
   const [playVideo, setPlayVideo] = useState(false);
   const videoId = "3-PRw2M48Bg";
   const phoneNumber = "56966972963";
 
-  const demoMessage = encodeURIComponent("¡Hola! Vengo desde la web de Venpu Plus y me gustaría solicitar una demo para mi automotora.");
-  const expertMessage = encodeURIComponent("¡Hola! Vengo desde la web de Venpu Plus y me gustaría hablar con un experto para resolver algunas dudas.");
-  
-  const demoWppUrl = `https://wa.me/${phoneNumber}?text=${demoMessage}`;
+  const expertMessage = encodeURIComponent("¡Hola! Vengo desde la web de Venpu Plus y me gustaría hablar con un experto.");
   const expertWppUrl = `https://wa.me/${phoneNumber}?text=${expertMessage}`;
 
   return (
@@ -39,9 +149,11 @@ export function HeroSection() {
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Button size="lg" className="bg-yellow-400 text-slate-900 hover:bg-yellow-300 font-bold" asChild>
-                <a href={demoWppUrl} target="_blank" rel="noopener noreferrer">Solicitar Demo</a>
-              </Button>
+              <DemoModal>
+                <Button size="lg" className="bg-yellow-400 text-slate-900 hover:bg-yellow-300 font-bold">
+                  Solicitar Demo
+                </Button>
+              </DemoModal>
               <Button size="lg" className="bg-green-500 text-white hover:bg-green-600 font-bold" asChild>
                 <a href={expertWppUrl} target="_blank" rel="noopener noreferrer">
                     <MessageSquare className="w-5 h-5 mr-2" />
