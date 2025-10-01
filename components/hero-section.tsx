@@ -1,15 +1,18 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { PlayCircle, MessageSquare } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export function HeroSection() {
+  const [playVideo, setPlayVideo] = useState(false);
+  const videoId = "3-PRw2M48Bg";
+
   return (
     <section className="relative w-full bg-[url('/fondo.png')] bg-cover bg-center" id="hero">
       <div className="absolute inset-0 bg-gray-900/50"></div>
-
       <div className="relative z-10 container mx-auto px-4 py-24 sm:py-32">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           
@@ -36,36 +39,45 @@ export function HeroSection() {
               </Button>
             </div>
             <p className="mt-6 text-sm text-gray-300">
-              +500 automotoras confían en nosotros  ●  Sorte 24/7
+              +500 automotoras confían en nosotros ● Soporte 24/7
             </p>
           </motion.div>
 
-          {/* Columna de Video/Imagen */}
-          {/* CAMBIO: Se envuelve todo el bloque en una etiqueta <a> */}
-          <a 
-            href="https://www.youtube.com/watch?v=3-PRw2M48Bg" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            aria-label="Ver video demo de Venpu Plus en YouTube"
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="flex justify-center"
           >
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="flex justify-center"
-            >
-              <div className="relative group w-full max-w-md aspect-video rounded-xl shadow-2xl overflow-hidden cursor-pointer">
-                <Image 
-                  src="/placeholder.jpg"
-                  alt="Demo de Venpu Plus"
-                  fill={true}
-                  style={{objectFit: 'cover'}}
-                />
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300"></div>
-                <PlayCircle className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-300" />
-              </div>
-            </motion.div>
-          </a>
+            <div className="relative w-full max-w-md aspect-video rounded-xl shadow-2xl overflow-hidden">
+              {/* CORRECCIÓN 1: La lógica está envuelta en llaves {} */}
+              {playVideo ? (
+                <iframe
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`}
+                  title="Video Corporativo Venpu"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                /> /* <-- CORRECCIÓN 2: La etiqueta se auto-cierra con "/>" */
+              ) : (
+                <div 
+                  className="relative group w-full h-full cursor-pointer"
+                  onClick={() => setPlayVideo(true)}
+                >
+                  <Image 
+                    src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                    alt="Previsualización del video de Venpu Plus"
+                    fill={true}
+                    style={{objectFit: 'cover'}}
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300"></div>
+                  <PlayCircle className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-300" />
+                </div>
+              )}
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
