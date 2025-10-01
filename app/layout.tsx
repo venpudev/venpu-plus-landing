@@ -1,6 +1,6 @@
-import { Suspense } from 'react' // <-- 1. IMPORTA SUSPENSE
+import { Suspense } from 'react'
 import './globals.css'
-// ... (otras importaciones como fuentes, etc.)
+import { GoogleAnalytics } from '@/components/google-analytics' // <-- 1. IMPORTA EL COMPONENTE
 
 export const metadata = {
   title: 'Venpu Plus Landing',
@@ -15,10 +15,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body>
-        {/* 2. ENVUELVE A 'children' CON SUSPENSE */}
         <Suspense fallback={<div>Cargando...</div>}>
           {children}
         </Suspense>
+        <GoogleAnalytics /> {/* <-- 2. AÑADE EL COMPONENTE AQUÍ */}
       </body>
     </html>
   )
