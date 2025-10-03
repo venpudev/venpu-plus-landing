@@ -27,17 +27,20 @@ export function HeroSection() {
   const demoMessage = "¡Hola! Vengo desde la web de Venpu Plus y me gustaría solicitar una demo...";
   const expertMessage = "¡Hola! Vengo desde la web de Venpu Plus y me gustaría hablar con un experto...";
 
-  // El resto del componente se mantiene igual...
+  // ... (el resto de tu componente se mantiene igual) ...
+  
   return (
-    <section>
+    <section /* ... */>
         {/* ... */}
-        <Button size="lg" className="bg-yellow-400..." onClick={() => handleWppClick(demoMessage)}>
-            Solicitar Demo
-        </Button>
-        <Button size="lg" className="bg-green-500..." onClick={() => handleWppClick(expertMessage)}>
-            <MessageSquare className="w-5 h-5 mr-2" />
-            Hablar por WhatsApp
-        </Button>
+        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <Button size="lg" className="bg-yellow-400 text-slate-900 hover:bg-yellow-300 font-bold" onClick={() => handleWppClick(demoMessage)}>
+                Solicitar Demo
+            </Button>
+            <Button size="lg" className="bg-green-500 text-white hover:bg-green-600 font-bold" onClick={() => handleWppClick(expertMessage)}>
+                <MessageSquare className="w-5 h-5 mr-2" />
+                Hablar por WhatsApp
+            </Button>
+        </div>
         {/* ... */}
     </section>
   )
