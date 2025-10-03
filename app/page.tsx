@@ -1,5 +1,5 @@
 import { Navigation } from "@/components/navigation";
-import { HeroSection } from "@/components/hero-section";
+import { HeroSection } from "@/components/hero-section"; // <-- Asegurémonos de que esta línea esté presente
 import { ComparisonSection } from "@/components/comparison-section";
 import { FeaturesSection } from "@/components/features-section";
 import { TestimonialsSection } from "@/components/testimonials-section";
@@ -13,7 +13,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
       <Navigation />
       <main>
-        <HeroSection />
+        <HeroSection /> {/* <-- Y que el componente se renderice aquí al principio */}
         <ComparisonSection />
         <FeaturesSection />
         <TestimonialsSection />

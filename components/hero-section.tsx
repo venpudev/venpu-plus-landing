@@ -1,22 +1,119 @@
 "use client"
 
-// ... (otras importaciones como useState, motion, etc.)
-import { event as trackMetaEvent } from './meta-pixel'; // 1. Importa nuestra función segura
+import { useState } from "react"
+import { motion } from "framer-motion"
+import Image from "next/image"
+import { PlayCircle, MessageSquare } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { DialogTrigger } from "@/components/ui/dialog"
+import { DemoModal } from "./demo-modal"
+import { event as trackMetaEvent } from './meta-pixel'; // Importa la función de seguimiento
 
 export function HeroSection() {
-  // ... (código de useState para el video, etc.)
-  
-  const handleWppClick = (message: string) => {
-    // 2. Llama a nuestra función para registrar el evento 'Lead'
-    trackMetaEvent('Lead', { content_name: 'Hero_WhatsApp_Click' });
+  const [playVideo, setPlayVideo] = useState(false);
+  const videoId = "3-PRw2M48Bg";
+  const phoneNumber = "56966972963";
+
+  // Función para manejar clics de WhatsApp y registrar el evento 'Lead'
+  const handleWppClick = (message: string, contentName: string) => {
+    trackMetaEvent('Lead', { content_name: contentName });
     
     if (typeof window !== "undefined") {
-      const phoneNumber = "56966972963";
       const encodedMessage = encodeURIComponent(message);
       const wppUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
       window.open(wppUrl, '_blank');
     }
   };
+  
+  const expertMessage = "¡Hola! Vengo desde la web de Venpu Plus y me gustaría hablar con un experto.";
 
-  // ... (el resto del componente se mantiene igual, asegúrate de que los botones llamen a handleWppClick)
+  return (
+    <section className="relative w-full bg-[url('/fondo.png')] bg-cover bg-center" id="hero">
+      <div className="absolute inset-0 bg-gray-900/60"></div>
+      <div className="relative z-10 container mx-auto px-4 py-24 sm:py-32">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-center md:text-left"
+          >
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-poppins text-white leading-tight">
+              La nueva era para tu automotora: <br />
+              <span className="text-yellow-400">Venpu Plus con IA</span>
+            </h1>
+            <p className="mt-6 text-lg md:text-xl text-gray-200 max-w-xl mx-auto md:mx-0">
+              Publica tu stock, centraliza leads de todos los canales y aumenta tus cierres con IA.
+            </p>
+
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <DemoModal>
+                <DialogTrigger asChild>
+                  <Button size="lg" className="bg-yellow-400 text-slate-900 hover:bg-yellow-300 font-bold">
+                    Solicitar Demo
+                  </Button>
+                </DialogTrigger>
+              </DemoModal>
+              <Button 
+                size="lg" 
+                className="bg-green-500 text-white hover:bg-green-600 font-bold" 
+                onClick={() => handleWppClick(expertMessage, 'Hero_WhatsApp_Expert_Click')}
+              >
+                <MessageSquare className="w-5 h-5 mr-2" />
+                Hablar con un experto
+              </Button>
+            </div>
+            
+            <div className="mt-6 flex justify-center md:justify-start">
+                 <Button size="sm" variant="outline" className="bg-transparent text-white border-white/50 hover:bg-white/10 hover:text-white" asChild>
+                    <a href="#">Crear Cuenta y prueba por 30 días</a>
+                </Button>
+            </div>
+
+            <p className="mt-8 text-sm text-gray-300">
+              +200 automotoras confían en nosotros ● Soporte 24/7
+            </p>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="flex justify-center"
+          >
+            <div className="relative w-full max-w-lg aspect-video rounded-xl shadow-2xl overflow-hidden">
+              {playVideo ? (
+                <iframe
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`}
+                  title="Video Corporativo Venpu"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                />
+              ) : (
+                <div 
+                  className="relative group w-full h-full cursor-pointer"
+                  onClick={() => setPlayVideo(true)}
+                >
+                  <Image 
+                    src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                    alt="Previsualización del video de Venpu Plus"
+                    fill={true}
+                    style={{objectFit: 'cover'}}
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300"></div>
+                  <PlayCircle className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 text-white/80 group-hover:text-white group-hover:scale-110 transition-transform duration-300" />
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
 }
